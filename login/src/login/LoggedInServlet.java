@@ -27,7 +27,7 @@ public class LoggedInServlet extends HttpServlet
 		PrintWriter out = response.getWriter();
 		
 		String n=request.getParameter("useremail");
-		out.print("Welcome "+n);
+		out.print("Welcome to the homepage, "+n);
 		
 		out.close();
 	

@@ -26,11 +26,13 @@ public class InsertServlet extends HttpServlet {
 		
 		
 		if(SignUpDao.save(strEmail, strPass)){
-			RequestDispatcher rd=request.getRequestDispatcher("saved");
+			RequestDispatcher rd=request.getRequestDispatcher("login");
 			rd.forward(request,response);
 		}
 		else{
-			out.print("Error occured while saving data.");
+			out.print("<br><div style=\"text-align:center; color:red; font-size:90%\">"
+					+ "<b>That email address is already in use. Please try another.</b>"
+					+ "</div>");
 			RequestDispatcher rd=request.getRequestDispatcher("signup.html");
 			rd.include(request,response);
 		}
