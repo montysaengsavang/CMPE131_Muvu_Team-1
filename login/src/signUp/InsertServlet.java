@@ -23,18 +23,28 @@ public class InsertServlet extends HttpServlet {
 		
 		String strEmail=request.getParameter("useremail");
 		String strPass=request.getParameter("userpass");
+		String strConfirmPass=request.getParameter("confirm_pass");
 		
 		
-		if(SignUpDao.save(strEmail, strPass)){
+		if(strConfirmPass.equals(strPass) && SignUpDao.save(strEmail, strPass))
+		{
 			RequestDispatcher rd=request.getRequestDispatcher("login");
 			rd.forward(request,response);
 		}
-		else{
-			out.print("<br><div style=\"text-align:center; color:red; font-size:90%\">"
+		
+		else
+		{
+			if(!strConfirmPass.equals(strPass))
+				out.print("<br><div style=\"text-align:center; color:red; font-size:90%\">"
+					+ "<b>Passwords do not match.</b>"
+					+ "</div>");
+			else
+				out.print("<br><div style=\"text-align:center; color:red; font-size:90%\">"
 					+ "<b>That email address is already in use. Please try another.</b>"
 					+ "</div>");
+			
 			RequestDispatcher rd=request.getRequestDispatcher("signup.html");
-			rd.include(request,response);
+			rd.include(request,response);	
 		}
 		
 		out.close();

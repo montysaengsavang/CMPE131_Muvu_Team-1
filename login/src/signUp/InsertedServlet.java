@@ -22,6 +22,7 @@ public class InsertedServlet extends HttpServlet {
 		
 		String strEmail=request.getParameter("useremail");
 		String strPassword = request.getParameter("userpass");
+
 		out.print("User having email " + strEmail + " and password "+strPassword + " has been saved successfully");
 		
 		out.close();
