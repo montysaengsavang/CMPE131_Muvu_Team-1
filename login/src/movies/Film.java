@@ -13,7 +13,15 @@ public class Film {
 	
 	public Film()
 	{
-	
+		id = 0;
+		title = "";
+		description = "";
+		genre = "";
+		duration = 0;
+		year = 0;
+		stars = "";
+		rating = 0;
+		url = "";
 	}
 
 }

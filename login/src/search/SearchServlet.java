@@ -1,5 +1,5 @@
 package search;
-
+import java.util.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -28,12 +28,21 @@ public class SearchServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		String n = request.getParameter("query");
 	
-		Film film1 = new Film();
-		if(SearchDao.search(n, film1)){ //if searchDao returns true, 
+		//create search results array, fill array with empty nodes
+		List<Film> searchResults = new ArrayList<>();
+		
+		if(SearchDao.search(n, searchResults))
+		{ //call search function given query n and an array for storing results 
 			
-	out.print("Movie: " + film1.title + " , where " + 
-			film1.description + ", made in " + film1.year + ". Critics give it  " + film1.rating);
+			int size = searchResults.size();
 			
+			for(int i = 0; i < size; i++)
+			{
+				
+				out.println(i+1 + "). A movie where " + searchResults.get(i).description);
+				out.println("<br>");
+				
+			}
 			
 			//RequestDispatcher rd = request.getRequestDispatcher("homepage.html"); 
 			//rd.forward(request,response); //forward to 
@@ -42,7 +51,7 @@ public class SearchServlet extends HttpServlet {
 			out.print("<br><div style=\"text-align:center; color:red; font-size:90%\">"
 					+ "<b>Search was unsuccessful. Please try again. </b>"
 					+ "</div>");
-			System.out.println("IM HERE,search returned false");
+			
 			RequestDispatcher rd=request.getRequestDispatcher("homepage.html");
 			rd.include(request,response);
 		}
