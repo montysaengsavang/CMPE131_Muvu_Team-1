@@ -39,13 +39,11 @@ public class SearchServlet extends HttpServlet {
 			for(int i = 0; i < size; i++)
 			{
 				
-				out.println(i+1 + "). A movie where " + searchResults.get(i).description);
+				out.println("<h3>" + (i+1) + "). " + searchResults.get(i).title + "</h3>");
+				out.println("		" + searchResults.get(i).description);
 				out.println("<br>");
-				
 			}
-			
-			//RequestDispatcher rd = request.getRequestDispatcher("homepage.html"); 
-			//rd.forward(request,response); //forward to 
+			 
 		}
 		else{ //if searchDao returns false, print to screen and recall the homepage.
 			out.print("<br><div style=\"text-align:center; color:red; font-size:90%\">"

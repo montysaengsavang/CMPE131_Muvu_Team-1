@@ -10,8 +10,12 @@ import java.sql.ResultSet;
 public class SearchDao {
 	public static boolean search(String query, List<Film> searchResults) {
 		boolean validSearch = false;
+		
+		if(query.equals(" "))
+			return validSearch;
+			
 		try 
-		{
+		{	
 			//defining database driver to use
 			Class.forName("com.mysql.jdbc.Driver");
 			
@@ -33,7 +37,7 @@ public class SearchDao {
 			PreparedStatement oPrStmt = con
 					.prepareStatement("SELECT * FROM `films` WHERE `title` LIKE ?");	
 			
-			oPrStmt.setString(1, query);// parameter index start from 
+			oPrStmt.setString(1, "%" + query + "%");// parameter index start from 
 			ResultSet rs = oPrStmt.executeQuery(); // executing the query and getting the resultset from databse
 			
 			//rs.next() shows that the resultset contains next value or not
