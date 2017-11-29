@@ -1,10 +1,14 @@
 package login;
 
+//import movies.Film;
+
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
@@ -27,7 +31,8 @@ public class LoginServlet extends HttpServlet {
 		
 		String n=request.getParameter("useremail");
 		String p=request.getParameter("userpass");
-		if(LoginDao.validate(n, p)){
+		if(LoginDao.validate(n, p))
+		{
 			RequestDispatcher rd = request.getRequestDispatcher("loggedin");
 			rd.forward(request,response);
 		}

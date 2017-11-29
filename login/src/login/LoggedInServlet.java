@@ -1,7 +1,13 @@
 package login;
 
+import movies.Film;
+
 import java.io.IOException;
 //import java.io.PrintWriter;
+
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -24,18 +30,17 @@ public class LoggedInServlet extends HttpServlet
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		// TODO Auto-generated method stub
-		
 		response.setContentType("text/html");
-	
-		RequestDispatcher rd = request.getRequestDispatcher("homepage.html");
-		rd.forward(request,response);
+		PrintWriter out = response.getWriter();
 		
-		/*
-		 PrintWriter out = response.getWriter();
-		String n=request.getParameter("useremail");
-		out.print("Welcome to the homepage, "+n);
-		*/
-		//out.close();
+		
+		List<Film> topMovies = new ArrayList<>();
+		LoginDao.getTopMovies(topMovies);
+		
+		request.setAttribute("title", "SHOESHANK");
+		
+		RequestDispatcher rd=request.getRequestDispatcher("homepage.html");
+		rd.include(request,response);
 	
 	}
 
