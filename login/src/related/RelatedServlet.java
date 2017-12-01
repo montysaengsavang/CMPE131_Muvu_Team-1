@@ -58,7 +58,7 @@ public class RelatedServlet extends HttpServlet {
 		}
 		
 		
-		else if(RelatedDao.getRelated(relatedFilms, favoritesList.get(0).genre))
+		else if(RelatedDao.getRelated(relatedFilms, favoritesList.get(0).genre.split(",")[0]))
 		{ //if favorites list is not empty, get related films by sending empty list to be filled and first genre in favorites list
 			
 			int size = relatedFilms.size();
