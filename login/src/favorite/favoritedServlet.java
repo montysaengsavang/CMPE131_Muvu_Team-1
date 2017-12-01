@@ -39,7 +39,9 @@ public class favoritedServlet extends HttpServlet {
 		request.setAttribute("error", "");
 		request.setAttribute("topMovies", topMovies);
 
-
+		request.setAttribute("temp1", temp1);
+		request.setAttribute("temp2", temp2);
+		
 		RequestDispatcher rd=request.getRequestDispatcher("homepage.jsp");
 		rd.include(request,response);
 		

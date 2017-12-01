@@ -1,7 +1,8 @@
 <%@ page import="java.util.List, java.util.ArrayList, movies.Film" language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"  %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!DOCTYPE html>
 <html>
 <head>
 
@@ -130,29 +131,34 @@ body{
 	</b></div>
       <br>
    <div class="search">
+   
    	<form action="search" method="post">
-   	  <input type="text" name="query" class="searchTerm" value="Search for a film...">
-      <button type="submit" class="searchButton">
+   	  <input type="text" name="query" class="searchTerm" placeholder="Search for a film...">
+   	  <% 
+   		String temp1 = (String) request.getAttribute("temp1");
+   		String temp2 = (String) request.getAttribute("temp2");
+   		out.println("<input type=\"hidden\" name=\"temp1\" value=\"" + temp1 + "\" />"
+			+ "<input type=\"hidden\" name=\"temp2\" value=\"" + temp2 + "\" />");
+ 	  	%>
+   	  <button type="submit" class="searchButton">
         <i class="fa fa-search"></i>
      </button>
-   	
    	</form>
+  
    </div>
 </div>
     <div class="parallax"></div>
     <div class="par2">
     <div class="par2_text">
+    <form action="related" method="post">
     
-    
-    
- 	 
- 	 <br><br>
+    </form>
+   
 <% 
 
 List<Film> topMovies = (List<Film>) request.getAttribute("topMovies");
 List<Film> favoritesList = (List<Film>) request.getAttribute("favoritesList");
-String temp1 = (String) request.getAttribute("temp1");
-String temp2 = (String) request.getAttribute("temp2");
+
 
 if(favoritesList.size() != 0)
 	out.println("<h2>Your Favorites List</h2>");
