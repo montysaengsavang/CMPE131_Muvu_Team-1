@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 01, 2017 at 04:39 AM
+-- Generation Time: Dec 01, 2017 at 05:52 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 5.6.31
 
@@ -45,8 +45,8 @@ CREATE TABLE `user_accounts` (
 --
 
 INSERT INTO `user_accounts` (`email`, `password`, `fav1`, `fav2`, `fav3`, `fav4`, `fav5`) VALUES
-('admin', 'admin', 3, 0, 0, 0, 0),
-('admin@gmail.com', 'admin', 100, 22, 3, 4, 5);
+('admin', 'admin', 13, 19, NULL, NULL, NULL),
+('admin@gmail.com', 'admin', 10, 9, 1, 4, 17);
 
 --
 -- Indexes for dumped tables

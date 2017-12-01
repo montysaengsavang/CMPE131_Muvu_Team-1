@@ -39,40 +39,33 @@ public class favoriteServlet extends HttpServlet {
 		LoginDao.getTopMovies(topMovies);
 		LoginDao.validate(temp1, temp2, favoritesList, favPID);
 		
-		for(int i = 0; i < 5; i++)
-			System.out.println(favPID[i] + " " + temp1 + temp2);
 		
 	    if(favoriteDao.addToFavorites(temp1, favoriteID, favPID))
 		{
-			
-			out.print("<br><div style=\"text-align:center; color:red; font-size:90%\">"
-				+ "<b>Movie has been added to favorites</b>"
-				+ "</div>");
-			
-			
 			request.setAttribute("favoritesList", favoritesList);
 			request.setAttribute("error", "");
 			request.setAttribute("topMovies", topMovies);
-				
+			
+			request.setAttribute("temp1", temp1);
+			request.setAttribute("temp2", temp2);
+			
 			RequestDispatcher rd=request.getRequestDispatcher("favorited");
 			rd.include(request,response);
 
 		}
 		
 		else
-		{
-			
-			out.print("<br><div style=\"text-align:center; color:red; font-size:90%\">"
-				+ "<b>Favorites list is full</b>"
-				+ "</div>");
-		
+		{		
 			
 			request.setAttribute("favoritesList", favoritesList);
-			request.setAttribute("error", "");
+			request.setAttribute("error", "Favorites list is full.");
 			request.setAttribute("topMovies", topMovies);
 			
-			RequestDispatcher rd=request.getRequestDispatcher("favorited");
-			rd.forward(request,response);	
+			request.setAttribute("temp1", temp1);
+			request.setAttribute("temp2", temp2);
+			
+			RequestDispatcher rd=request.getRequestDispatcher("homepage.jsp");
+			rd.include(request,response);	
 		}
 
 		

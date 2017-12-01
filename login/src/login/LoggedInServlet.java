@@ -45,6 +45,7 @@ public class LoggedInServlet extends HttpServlet
 		request.setAttribute("error", "");
 		request.setAttribute("topMovies", topMovies);
 		
+		
 		RequestDispatcher rd=request.getRequestDispatcher("homepage.jsp");
 		rd.include(request,response);
 	

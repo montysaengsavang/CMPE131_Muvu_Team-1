@@ -155,11 +155,11 @@ String temp1 = (String) request.getAttribute("temp1");
 String temp2 = (String) request.getAttribute("temp2");
 
 if(favoritesList.size() != 0)
-	out.println("<h3>Your Favorites List</h3>");
+	out.println("<h2>Your Favorites List</h2>");
 
 for(int i = 0; i < favoritesList.size(); i++)
 {
-	out.println("<h4>" + favoritesList.get(i).title + " (" + favoritesList.get(i).year + ")</h4>");
+	out.println("<h3>" + favoritesList.get(i).title + " (" + favoritesList.get(i).year + ")</h3>");
 	out.println("<img src = \"https://raw.githubusercontent.com/montysaengsavang/Muvu-Images/master/"
 	+ favoritesList.get(i).url + "\" alt=\"Movie Image\" height=\"390\" width=\"280\"><br><br>");
 	
@@ -179,7 +179,7 @@ for(int i = 0; i < topMovies.size(); i++)
 			+ "<input type=\"hidden\" name=\"temp2\" value=\"" + temp2 + "\" />"
 			+ "<input type=\"hidden\" name=\"favID\" value=" + topMovies.get(i).id +  " />"
 		 	+ "<input type=\"Submit\" value=\"Add To Favorites\">"
-		 	+ "</form>");
+		 	+ "</form><br>");
 	
 	
 	out.println("Starring: " + topMovies.get(i).stars + "<br><br>" + topMovies.get(i).description + "<br> (" 
