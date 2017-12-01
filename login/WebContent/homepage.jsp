@@ -137,6 +137,9 @@ body{
    	  <% 
    		String temp1 = (String) request.getAttribute("temp1");
    		String temp2 = (String) request.getAttribute("temp2");
+   		List<Film> topMovies = (List<Film>) request.getAttribute("topMovies");
+   		List<Film> favoritesList = (List<Film>) request.getAttribute("favoritesList");
+   		
    		out.println("<input type=\"hidden\" name=\"temp1\" value=\"" + temp1 + "\" />"
 			+ "<input type=\"hidden\" name=\"temp2\" value=\"" + temp2 + "\" />");
  	  	%>
@@ -151,13 +154,15 @@ body{
     <div class="par2">
     <div class="par2_text">
     <form action="related" method="post">
-    
+    	<% 
+   		out.println("<input type=\"hidden\" name=\"temp1\" value=\"" + temp1 + "\" />"
+			+ "<input type=\"hidden\" name=\"temp2\" value=\"" + temp2 + "\" />");
+ 	  	%>
+ 	  	<input type="Submit" value="Get Related Films">
+ 	  	
     </form>
    
 <% 
-
-List<Film> topMovies = (List<Film>) request.getAttribute("topMovies");
-List<Film> favoritesList = (List<Film>) request.getAttribute("favoritesList");
 
 
 if(favoritesList.size() != 0)

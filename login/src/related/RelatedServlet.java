@@ -28,12 +28,28 @@ public class RelatedServlet extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 
-	
-		//create search results array, fill array with empty nodes
+
 		List<Film> relatedFilms = new ArrayList<>();
+		String relatedGenre = request.getParameter("relatedGenre");
 		
-		if(RelatedDao.getRelated(relatedFilms))
-		{ //call search function given query n and an array for storing results 
+		String temp1 = request.getParameter("temp1");
+		String temp2 = request.getParameter("temp2");		
+		List<Film> topMovies = new ArrayList<Film>();
+		List<Film> favoritesList = new ArrayList<Film>();
+		int[] favPID = new int[5];
+		LoginDao.getTopMovies(topMovies);
+		LoginDao.validate(temp1, temp2, favoritesList, favPID);
+		request.setAttribute("favoritesList", favoritesList);
+		request.setAttribute("error", "");
+		request.setAttribute("topMovies", topMovies);
+		request.setAttribute("temp1", temp1);
+		request.setAttribute("temp2", temp2);
+		
+		
+		System.out.println("related" + relatedGenre);
+		
+		if(RelatedDao.getRelated(relatedFilms, relatedGenre))
+		{ //call search function for related films
 			
 			int size = relatedFilms.size();
 			
@@ -48,13 +64,25 @@ public class RelatedServlet extends HttpServlet {
 			}
 			 
 		}
-		else{ //if searchDao returns false, print to screen and recall the homepage.
+		else{ //if relatedDao returns false, print to screen and recall the homepage.
 			
-			List<Film> topMovies = new ArrayList<>();
+			/*
+			String temp1 = request.getParameter("temp1");
+			String temp2 = request.getParameter("temp2");
+			
+			List<Film> topMovies = new ArrayList<Film>();
+			List<Film> favoritesList = new ArrayList<Film>();
+			int[] favPID = new int[5];
+			
 			LoginDao.getTopMovies(topMovies);
+			LoginDao.validate(temp1, temp2, favoritesList, favPID); 
+			request.setAttribute("favoritesList", favoritesList);
+			request.setAttribute("error", "Search was unsuccessful. Please try again.");
+			request.setAttribute("topMovies", topMovies);
 			
-			request.setAttribute("error", "");
-			request.setAttribute("topMovies", topMovies);		
+			request.setAttribute("temp1", temp1);
+			request.setAttribute("temp2", temp2);
+			*/
 			RequestDispatcher rd=request.getRequestDispatcher("homepage.jsp");
 			rd.forward(request,response);
 		}

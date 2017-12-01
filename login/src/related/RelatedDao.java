@@ -8,7 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class RelatedDao {
-	public static boolean getRelated(List<Film> relatedFilms) {
+	public static boolean getRelated(List<Film> relatedFilms, String relatedGenre) {
 		boolean validSearch = false;
 			
 		try 
@@ -32,7 +32,8 @@ public class RelatedDao {
 			// select * from users where username = name and password = pass
 			
 			PreparedStatement oPrStmt = con
-					.prepareStatement("SELECT * FROM `films` WHERE `title` LIKE ?");	
+					.prepareStatement("SELECT * FROM `films` WHERE `title` LIKE ?");
+		
 			
 			//oPrStmt.setString(1, "%" + query + "%");// parameter index start from 
 			ResultSet rs = oPrStmt.executeQuery(); // executing the query and getting the resultset from databse
