@@ -32,10 +32,10 @@ public class RelatedDao {
 			// select * from users where username = name and password = pass
 			
 			PreparedStatement oPrStmt = con
-					.prepareStatement("SELECT * FROM `films` WHERE `title` LIKE ?");
+					.prepareStatement("SELECT * FROM `films` WHERE `genre` LIKE ?");
 		
 			
-			//oPrStmt.setString(1, "%" + query + "%");// parameter index start from 
+			oPrStmt.setString(1, "%" + relatedGenre + "%");// parameter index start from 
 			ResultSet rs = oPrStmt.executeQuery(); // executing the query and getting the resultset from databse
 			
 			//rs.next() shows that the resultset contains next value or not

@@ -28,28 +28,38 @@ public class RelatedServlet extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 
-
-		List<Film> relatedFilms = new ArrayList<>();
-		String relatedGenre = request.getParameter("relatedGenre");
 		
 		String temp1 = request.getParameter("temp1");
-		String temp2 = request.getParameter("temp2");		
+		String temp2 = request.getParameter("temp2");
+		
 		List<Film> topMovies = new ArrayList<Film>();
 		List<Film> favoritesList = new ArrayList<Film>();
 		int[] favPID = new int[5];
 		LoginDao.getTopMovies(topMovies);
 		LoginDao.validate(temp1, temp2, favoritesList, favPID);
-		request.setAttribute("favoritesList", favoritesList);
-		request.setAttribute("error", "");
-		request.setAttribute("topMovies", topMovies);
-		request.setAttribute("temp1", temp1);
-		request.setAttribute("temp2", temp2);
+
+		
+		List<Film> relatedFilms = new ArrayList<>();
 		
 		
-		System.out.println("related" + relatedGenre);
+		if(favoritesList.size() == 0) //if favorites list is empty, default to suggesting related films
+		{
+			int size = topMovies.size();
+			
+			for(int i = 0; i < size; i++)
+			{
+				
+				out.println("		<h3>" + (i+1) + "). " + topMovies.get(i).title + "</h3>");
+				out.println("<img src = \"https://raw.githubusercontent.com/montysaengsavang/Muvu-Images/master/"
+				+ topMovies.get(i).url + "\" alt=\"Movie Image\" height=\"390\" width=\"280\"><br><br>");
+				out.println("				" + topMovies.get(i).description);
+				out.println("<br>");
+			}
+		}
 		
-		if(RelatedDao.getRelated(relatedFilms, relatedGenre))
-		{ //call search function for related films
+		
+		else if(RelatedDao.getRelated(relatedFilms, favoritesList.get(0).genre))
+		{ //if favorites list is not empty, get related films by sending empty list to be filled and first genre in favorites list
 			
 			int size = relatedFilms.size();
 			
@@ -66,23 +76,15 @@ public class RelatedServlet extends HttpServlet {
 		}
 		else{ //if relatedDao returns false, print to screen and recall the homepage.
 			
-			/*
-			String temp1 = request.getParameter("temp1");
-			String temp2 = request.getParameter("temp2");
 			
-			List<Film> topMovies = new ArrayList<Film>();
-			List<Film> favoritesList = new ArrayList<Film>();
-			int[] favPID = new int[5];
-			
-			LoginDao.getTopMovies(topMovies);
-			LoginDao.validate(temp1, temp2, favoritesList, favPID); 
+			 
 			request.setAttribute("favoritesList", favoritesList);
-			request.setAttribute("error", "Search was unsuccessful. Please try again.");
+			request.setAttribute("error", "Getting related films returned unsuccessful. Please try again.");
 			request.setAttribute("topMovies", topMovies);
 			
 			request.setAttribute("temp1", temp1);
 			request.setAttribute("temp2", temp2);
-			*/
+			
 			RequestDispatcher rd=request.getRequestDispatcher("homepage.jsp");
 			rd.forward(request,response);
 		}

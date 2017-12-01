@@ -36,11 +36,11 @@ public class SearchServlet extends HttpServlet {
 		{ //call search function given query n and an array for storing results 
 			
 			int size = searchResults.size();
-			
+			//print all movies in the searchResult list
 			for(int i = 0; i < size; i++)
 			{
 				
-				out.println("		<h3>" + (i+1) + "). " + searchResults.get(i).title + "</h3>");
+				out.println("<h3>" + (i+1) + "). " + searchResults.get(i).title + "</h3>");
 				out.println("<img src = \"https://raw.githubusercontent.com/montysaengsavang/Muvu-Images/master/"
 				+ searchResults.get(i).url + "\" alt=\"Movie Image\" height=\"390\" width=\"280\"><br><br>");
 				out.println("				" + searchResults.get(i).description);
@@ -49,7 +49,7 @@ public class SearchServlet extends HttpServlet {
 			 
 		}
 		else{ //if searchDao returns false, print to screen and recall the homepage.
-			
+			//must call all of these gets and sets in order to run homepage.jsp
 			String temp1 = request.getParameter("temp1");
 			String temp2 = request.getParameter("temp2");
 			
@@ -61,7 +61,7 @@ public class SearchServlet extends HttpServlet {
 			request.setAttribute("favoritesList", favoritesList);
 			request.setAttribute("error", "Search was unsuccessful. Please try again.");
 			request.setAttribute("topMovies", topMovies);
-			
+			//must set these attributes for the next servlet to be able to retrieve
 			request.setAttribute("temp1", temp1);
 			request.setAttribute("temp2", temp2);
 			

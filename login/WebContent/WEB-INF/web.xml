@@ -64,6 +64,14 @@
     <servlet-name>favoriteServlet</servlet-name>
     <url-pattern>/favorite</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>RelatedServlet</servlet-name>
+    <servlet-class>related.RelatedServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RelatedServlet</servlet-name>
+    <url-pattern>/related</url-pattern>
+  </servlet-mapping>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
     <welcome-file>signup.html</welcome-file>

@@ -29,13 +29,10 @@ public class SearchDao {
 					"jdbc:mysql://localhost:3306/movies", "root", "");
 
 			
-			//prepared statement is used for secure access
-			// ? used for data to put in query
-			// actual query to execute is
-			// select * from users where username = name and password = pass
-			
+			//find films from database where title is like our query
 			PreparedStatement oPrStmt = con
 					.prepareStatement("SELECT * FROM `films` WHERE `title` LIKE ?");	
+			
 			
 			oPrStmt.setString(1, "%" + query + "%");// parameter index start from 
 			ResultSet rs = oPrStmt.executeQuery(); // executing the query and getting the resultset from databse

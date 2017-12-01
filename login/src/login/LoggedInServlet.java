@@ -26,13 +26,13 @@ public class LoggedInServlet extends HttpServlet
         // TODO Auto-generated constructor stub
     }
 
-
+    //after we have been logged in, we come here
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		// TODO Auto-generated method stub
 		response.setContentType("text/html");
 	
-		
+		//we MUST request all these attributes and call these functions in order to run homepage.jsp
 		String temp1 = (String) request.getAttribute("temp1");
 		String temp2 = (String) request.getAttribute("temp2"); 
 		
@@ -41,6 +41,8 @@ public class LoggedInServlet extends HttpServlet
 		int[] favPID = new int[5];
 		LoginDao.getTopMovies(topMovies);
 		LoginDao.validate(temp1, temp2, favoritesList, favPID); 
+		
+		//MUST set these attributes before running homepage.jsp
 		request.setAttribute("favoritesList", favoritesList);
 		request.setAttribute("error", "");
 		request.setAttribute("topMovies", topMovies);
