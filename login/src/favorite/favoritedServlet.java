@@ -1,11 +1,8 @@
-package login;
+package favorite;
 
-
-import movies.Film;
 
 import java.io.IOException;
-//import java.io.PrintWriter;
-
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,40 +12,37 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-public class LoggedInServlet extends HttpServlet 
-{
-	private static final long serialVersionUID = 1L;
-       
-
-    public LoggedInServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+import login.LoginDao;
+import movies.Film;
 
 
-	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
-	{
-		// TODO Auto-generated method stub
-		response.setContentType("text/html");
+public class favoritedServlet extends HttpServlet {
 	
+	private static final long serialVersionUID = 1L;
+
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
 		
-		String temp1 = (String) request.getAttribute("temp1");
-		String temp2 = (String) request.getAttribute("temp2"); 
+		String temp1 = request.getParameter("temp1");
+		String temp2 = request.getParameter("temp2");
 		
 		List<Film> topMovies = new ArrayList<Film>();
 		List<Film> favoritesList = new ArrayList<Film>();
 		int[] favPID = new int[5];
 		LoginDao.getTopMovies(topMovies);
-		LoginDao.validate(temp1, temp2, favoritesList, favPID); 
+		LoginDao.validate(temp1, temp2, favoritesList, favPID);
+		
 		request.setAttribute("favoritesList", favoritesList);
 		request.setAttribute("error", "");
 		request.setAttribute("topMovies", topMovies);
 		
 		RequestDispatcher rd=request.getRequestDispatcher("homepage.jsp");
 		rd.include(request,response);
-	
+		
+		out.close();
 	}
-
 
 }

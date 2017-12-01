@@ -1,7 +1,8 @@
 package login;
 
-//import movies.Film;
-
+import movies.Film;
+import java.util.List;
+import java.util.ArrayList;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -16,9 +17,11 @@ import javax.servlet.RequestDispatcher;
 
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+   
+	
     public LoginServlet() {
-        super();
+    	super();
+        
         // TODO Auto-generated constructor stub
     }
 
@@ -31,10 +34,15 @@ public class LoginServlet extends HttpServlet {
 		
 		String n=request.getParameter("useremail");
 		String p=request.getParameter("userpass");
-		if(LoginDao.validate(n, p))
-		{
+		
+		List<Film> favoritesList = new ArrayList<Film>();
+		int[] favPID = new int[5];
+		if(LoginDao.validate(n, p, favoritesList, favPID))
+		{	
+			request.setAttribute("temp1", n);
+			request.setAttribute("temp2", p);
 			RequestDispatcher rd = request.getRequestDispatcher("loggedin");
-			rd.forward(request,response);
+			rd.include(request,response);
 		}
 		else{
 			out.print("<br><div style=\"text-align:center; color:red; font-size:90%\">"

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 09, 2017 at 08:37 AM
+-- Generation Time: Dec 01, 2017 at 04:39 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 5.6.31
 
@@ -19,8 +19,10 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `login`
+-- Database: `users`
 --
+CREATE DATABASE IF NOT EXISTS `users` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `users`;
 
 -- --------------------------------------------------------
 
@@ -30,15 +32,21 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `user_accounts` (
   `email` varchar(100) NOT NULL,
-  `password` varchar(100) NOT NULL
+  `password` varchar(100) NOT NULL,
+  `fav1` int(100) DEFAULT NULL,
+  `fav2` int(100) DEFAULT NULL,
+  `fav3` int(100) DEFAULT NULL,
+  `fav4` int(100) DEFAULT NULL,
+  `fav5` int(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user_accounts`
 --
 
-INSERT INTO `user_accounts` (`email`, `password`) VALUES
-('admin@gmail.com', 'admin');
+INSERT INTO `user_accounts` (`email`, `password`, `fav1`, `fav2`, `fav3`, `fav4`, `fav5`) VALUES
+('admin', 'admin', 3, 0, 0, 0, 0),
+('admin@gmail.com', 'admin', 100, 22, 3, 4, 5);
 
 --
 -- Indexes for dumped tables

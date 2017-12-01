@@ -17,7 +17,7 @@ public class SignUpDao {
 			//root: password
 			//syntex : databaseurl/databasename, username , password
 			Connection con = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/login", "root", "");
+					"jdbc:mysql://localhost:3306/users", "root", "");
 			
 			
 

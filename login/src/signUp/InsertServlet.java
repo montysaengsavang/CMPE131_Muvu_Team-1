@@ -28,8 +28,11 @@ public class InsertServlet extends HttpServlet {
 		
 		if(strConfirmPass.equals(strPass) && SignUpDao.save(strEmail, strPass))
 		{
-			RequestDispatcher rd=request.getRequestDispatcher("login");
-			rd.forward(request,response);
+			out.print("<br><div style=\"text-align:center; color:red; font-size:90%\">"
+				+ "<b>Account has successfully been created.</b>"
+				+ "</div>");
+			RequestDispatcher rd=request.getRequestDispatcher("index.html");
+			rd.include(request,response);
 		}
 		
 		else

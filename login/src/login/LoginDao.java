@@ -1,13 +1,12 @@
 package login;
 
 import movies.Film;
-
 import java.sql.*;
 import java.util.List;
 
 public class LoginDao {
 
-	public static boolean validate(String name, String pass) {
+	public static boolean validate(String name, String pass, List<Film> favoritesList, int[] favPID) {
 		boolean validLogin = false;
 		try {
 			//defining database driver to use
@@ -20,7 +19,7 @@ public class LoginDao {
 			//root: password
 			//syntex : databaseurl/databasename, username , password
 			Connection con = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/login", "root", "");
+					"jdbc:mysql://localhost:3306/users", "root", "");
 			
 
 			//prepared statement is used for secure access
@@ -37,13 +36,54 @@ public class LoginDao {
 			//rs.next() shows that the resultset contains nect value or not
 			// for retrieving multiple results, you can use while(rs.next)
 			
-			if (rs.next()) { //checking if the resultset has any value?   
+			
+			if(rs.next()) { //checking if the resultset has any value? 
+				
 				validLogin = true;
-			}
-		
+				 //initialize empty array that will hold primary key ID's of each movie in favorites list
+				favPID[0] = rs.getInt("fav1");
+				favPID[1] = rs.getInt("fav2");
+				favPID[2] = rs.getInt("fav3");
+				favPID[3] = rs.getInt("fav4");
+				favPID[4] = rs.getInt("fav5");
+				
+				
+				con = DriverManager.getConnection(
+						"jdbc:mysql://localhost:3306/movies", "root", "");
+				
+				for(int i = 0; i < 5; i++)
+				{
+					
+					oPrStmt = con
+							.prepareStatement("SELECT * FROM `films` WHERE id=?");
+					oPrStmt.setInt(1, favPID[i]);
+					rs = oPrStmt.executeQuery(); 
+				
+					if(rs.next())
+					{
+						Film movie = new Film();
+						movie.id = rs.getInt("id");
+						movie.title = rs.getString("title");
+						movie.description = rs.getString("description");
+						movie.genre = rs.getString("genre");
+						movie.duration = rs.getInt("duration");
+						movie.year = rs.getInt("year");
+						movie.stars = rs.getString("stars");
+						movie.rating = rs.getDouble("rating");
+						movie.url = rs.getString("url");
+						
+						favoritesList.add(movie);
+					}
+					
+				}//end for loop
+			
+				
+			}//end rs.next if statement
+	
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+	
 		return validLogin;
 	}
 	
@@ -99,4 +139,6 @@ public class LoginDao {
 		}
 		return validReturn;
 	}
+	
+	
 }
