@@ -153,6 +153,7 @@ body{
     <div class="parallax"></div>
     <div class="par2">
     <div class="par2_text">
+    
     <form action="related" method="post">
     	<% 
    		out.println("<input type=\"hidden\" name=\"temp1\" value=\"" + temp1 + "\" />"
@@ -161,10 +162,7 @@ body{
  	  	<input type="Submit" value="Get Related Films">
  	  	
     </form>
-   
 <% 
-
-
 if(favoritesList.size() != 0)
 	out.println("<h2>Your Favorites List</h2>");
 
@@ -176,7 +174,18 @@ for(int i = 0; i < favoritesList.size(); i++)
 	
 	out.println("<br>");
 }
+%>
 
+
+<form action="clear" method="post">
+<% 
+		out.println("<input type=\"hidden\" name=\"temp1\" value=\"" + temp1 + "\" />"
+		+ "<input type=\"hidden\" name=\"temp2\" value=\"" + temp2 + "\" />");
+	%>
+	  	<input type="Submit" value="Clear Favorites List">
+</form>
+
+<%
 out.println("<h2>Top Rated Movies</h2>");
 for(int i = 0; i < topMovies.size(); i++)
 {
