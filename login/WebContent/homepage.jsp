@@ -1,4 +1,4 @@
-<%@ page import="java.util.List, java.util.ArrayList, movies.Film" language="java" contentType="text/html; charset=ISO-8859-1"
+<%@ page import="java.util.List, java.util.ArrayList, movies.Film, accounts.User, database.MovieDB" language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"  %>
 
 
@@ -135,13 +135,16 @@ body{
    	<form action="search" method="post">
    	  <input type="text" name="query" class="searchTerm" placeholder="Search for a film...">
    	  <% 
-   		String temp1 = (String) request.getAttribute("temp1");
-   		String temp2 = (String) request.getAttribute("temp2");
-   		List<Film> topMovies = (List<Film>) request.getAttribute("topMovies");
-   		List<Film> favoritesList = (List<Film>) request.getAttribute("favoritesList");
-   		
-   		out.println("<input type=\"hidden\" name=\"temp1\" value=\"" + temp1 + "\" />"
-			+ "<input type=\"hidden\" name=\"temp2\" value=\"" + temp2 + "\" />");
+//   		String temp1 = (String) request.getAttribute("temp1");
+//   		String temp2 = (String) request.getAttribute("temp2");
+ 
+   			User thisUser = (User)request.getAttribute("thisUser");
+			MovieDB topMovies = (MovieDB)request.getAttribute("topMovies");
+			
+//   		List<Film> favoritesList = (List<Film>) request.getAttribute("favoritesList");
+		
+   		out.println("<input type=\"hidden\" name=\"temp1\" value=\"" + thisUser.email + "\" />"
+			+ "<input type=\"hidden\" name=\"temp2\" value=\"" + thisUser.password + "\" />");
  	  	%>
    	  <button type="submit" class="searchButton">
         <i class="fa fa-search"></i>
@@ -156,21 +159,21 @@ body{
     
     <form action="related" method="post">
     	<% 
-   		out.println("<input type=\"hidden\" name=\"temp1\" value=\"" + temp1 + "\" />"
-			+ "<input type=\"hidden\" name=\"temp2\" value=\"" + temp2 + "\" />");
+   		out.println("<input type=\"hidden\" name=\"temp1\" value=\"" + thisUser.email + "\" />"
+			+ "<input type=\"hidden\" name=\"temp2\" value=\"" + thisUser.password + "\" />");
  	  	%>
  	  	<input type="Submit" value="Get Related Films">
  	  	
     </form>
 <% 
-if(favoritesList.size() != 0)
+if(thisUser.favorites.size() != 0)
 	out.println("<h2>Your Favorites List</h2>");
 
-for(int i = 0; i < favoritesList.size(); i++)
+for(int i = 0; i < thisUser.favorites.size(); i++)
 {
-	out.println("<h3>" + favoritesList.get(i).title + " (" + favoritesList.get(i).year + ")</h3>");
+	out.println("<h3>" + thisUser.favorites.get(i).title + " (" + thisUser.favorites.get(i).year + ")</h3>");
 	out.println("<img src = \"https://raw.githubusercontent.com/montysaengsavang/Muvu-Images/master/"
-	+ favoritesList.get(i).url + "\" alt=\"Movie Image\" height=\"390\" width=\"280\"><br><br>");
+	+ thisUser.favorites.get(i).url + "\" alt=\"Movie Image\" height=\"390\" width=\"280\"><br><br>");
 	
 	out.println("<br>");
 }
@@ -179,32 +182,32 @@ for(int i = 0; i < favoritesList.size(); i++)
 
 <form action="clear" method="post">
 <% 
-		out.println("<input type=\"hidden\" name=\"temp1\" value=\"" + temp1 + "\" />"
-		+ "<input type=\"hidden\" name=\"temp2\" value=\"" + temp2 + "\" />");
+		out.println("<input type=\"hidden\" name=\"temp1\" value=\"" + thisUser.email + "\" />"
+		+ "<input type=\"hidden\" name=\"temp2\" value=\"" + thisUser.password + "\" />");
 	%>
 	  	<input type="Submit" value="Clear Favorites List">
 </form>
 
 <%
 out.println("<h2>Top Rated Movies</h2>");
-for(int i = 0; i < topMovies.size(); i++)
+for(int i = 0; i < topMovies.movieList.size(); i++)
 {
-	out.println("<h3>" + (i+1) + "). " + topMovies.get(i).title + " (" + topMovies.get(i).year + ")</h3>");
+	out.println("<h3>" + (i+1) + "). " + topMovies.movieList.get(i).title + " (" + topMovies.movieList.get(i).year + ")</h3>");
 	out.println("<img src = \"https://raw.githubusercontent.com/montysaengsavang/Muvu-Images/master/"
-		+ topMovies.get(i).url + "\" alt=\"Movie Image\" height=\"390\" width=\"280\"><br><br>");
+		+ topMovies.movieList.get(i).url + "\" alt=\"Movie Image\" height=\"390\" width=\"280\"><br><br>");
 
 	
 	out.println(" <form action=\"favorite\" method=\"post\"> "
-			+ "<input type=\"hidden\" name=\"temp1\" value=\"" + temp1 + "\" />"
-			+ "<input type=\"hidden\" name=\"temp2\" value=\"" + temp2 + "\" />"
-			+ "<input type=\"hidden\" name=\"favID\" value=" + topMovies.get(i).id +  " />"
+			+ "<input type=\"hidden\" name=\"temp1\" value=\"" + thisUser.email + "\" />"
+			+ "<input type=\"hidden\" name=\"temp2\" value=\"" + thisUser.password + "\" />"
+			+ "<input type=\"hidden\" name=\"favID\" value=" + topMovies.movieList.get(i).id +  " />"
 		 	+ "<input type=\"Submit\" value=\"Add To Favorites\">"
 		 	+ "</form><br>");
 	
 	
-	out.println("Starring: " + topMovies.get(i).stars + "<br><br>" + topMovies.get(i).description + "<br> (" 
-		+ topMovies.get(i).duration + " mins)<br>" + topMovies.get(i).genre + "<div style=\" color:red; \">" 
-		+ topMovies.get(i).rating + "</div> ");
+	out.println("Starring: " + topMovies.movieList.get(i).stars + "<br><br>" + topMovies.movieList.get(i).description + "<br> (" 
+		+ topMovies.movieList.get(i).duration + " mins)<br>" + topMovies.movieList.get(i).genre + "<div style=\" color:red; \">" 
+		+ topMovies.movieList.get(i).rating + "</div> ");
 }
 %>
     </div>

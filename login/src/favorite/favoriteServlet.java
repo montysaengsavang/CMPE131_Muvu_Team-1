@@ -1,18 +1,16 @@
 package favorite;
 
+import database.MovieDB;
+import accounts.User;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import login.LoginDao;
-import movies.Film;
+
 
 
 public class favoriteServlet extends HttpServlet {
@@ -31,26 +29,24 @@ public class favoriteServlet extends HttpServlet {
 		String temp1 = request.getParameter("temp1");
 		String temp2 = request.getParameter("temp2");
 		String favID = request.getParameter("favID");
+		
 		//convert string to int
 		int favoriteID = Integer.parseInt(favID);
 		
-		//call these functions before calling homepage.jsp again
-		List<Film> topMovies = new ArrayList<Film>();
-		List<Film> favoritesList = new ArrayList<Film>();
-		int[] favPID = new int[5];
-		LoginDao.getTopMovies(topMovies);
-		LoginDao.validate(temp1, temp2, favoritesList, favPID);
-		
+		//create objects
+		User thisUser = new User(temp1,temp2);
+		LoginDao.validate(thisUser);
+	
+		MovieDB topMovies = new MovieDB();
+		LoginDao.getTopMovies(topMovies.movieList);
+
 		//send user email, since it is a primary key, to find the user and add to the users column the id of requested movie
-	    if(favoriteDao.addToFavorites(temp1, favoriteID, favPID))
+	    if(favoriteDao.addToFavorites(thisUser.email, favoriteID, thisUser.favPID))
 		{
 	    	//set attributes before changing servlets
-			request.setAttribute("favoritesList", favoritesList);
+	    	request.setAttribute("thisUser", thisUser);
 			request.setAttribute("error", "");
 			request.setAttribute("topMovies", topMovies);
-			
-			request.setAttribute("temp1", temp1);
-			request.setAttribute("temp2", temp2);
 			
 			RequestDispatcher rd=request.getRequestDispatcher("favorited");
 			rd.include(request,response);
@@ -59,13 +55,9 @@ public class favoriteServlet extends HttpServlet {
 		
 		else //if unable to add to the list, its because it is full, if full, print accordingly
 		{		
-			
-			request.setAttribute("favoritesList", favoritesList);
+			request.setAttribute("thisUser", thisUser);
 			request.setAttribute("error", "Favorites list is full.");
 			request.setAttribute("topMovies", topMovies);
-			
-			request.setAttribute("temp1", temp1);
-			request.setAttribute("temp2", temp2);
 			
 			RequestDispatcher rd=request.getRequestDispatcher("homepage.jsp");
 			rd.include(request,response);	

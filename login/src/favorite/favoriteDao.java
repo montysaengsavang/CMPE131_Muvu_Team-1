@@ -36,7 +36,7 @@ public class favoriteDao {
 		
 					//execute update
 					int n = oPrStmt.executeUpdate();
-	
+					
 					if(n>0)
 					{ // check that the data is inserted successfully or not
 						isFavInserted = true;

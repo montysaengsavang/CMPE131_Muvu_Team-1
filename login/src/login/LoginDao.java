@@ -1,12 +1,13 @@
 package login;
 
 import movies.Film;
+import accounts.User;
 import java.sql.*;
 import java.util.List;
 
 public class LoginDao {
 
-	public static boolean validate(String name, String pass, List<Film> favoritesList, int[] favPID) {
+	public static boolean validate(User thisUser) {
 		boolean validLogin = false;
 		try {
 			//defining database driver to use
@@ -30,35 +31,36 @@ public class LoginDao {
 					.prepareStatement("SELECT * FROM `user_accounts` WHERE email=? AND password=?");// ? represents some parameter to include
 								
 			//setting ? variables in the above statement
-			oPrStmt.setString(1, name);// parameter index start from 1
-			oPrStmt.setString(2, pass);
+			oPrStmt.setString(1, thisUser.email);// parameter index start from 1
+			oPrStmt.setString(2, thisUser.password);
 			ResultSet rs = oPrStmt.executeQuery(); // executing the query and getting the resultset from databse
 			
 			//rs.next() shows that the resultset contains nect value or not
 			// for retrieving multiple results, you can use while(rs.next)
 			
-			
+		
 			if(rs.next()) { //checking if the resultset has any value? 
 				
 				validLogin = true;
 				 //retrieve users list of favorite movies from users database, in this case all we need are the id's of each movie
-				favPID[0] = rs.getInt("fav1");
-				favPID[1] = rs.getInt("fav2");
-				favPID[2] = rs.getInt("fav3");
-				favPID[3] = rs.getInt("fav4");
-				favPID[4] = rs.getInt("fav5");
+				thisUser.favPID[0] = rs.getInt("fav1");
+				thisUser.favPID[1] = rs.getInt("fav2");
+				thisUser.favPID[2] = rs.getInt("fav3");
+				thisUser.favPID[3] = rs.getInt("fav4");
+				thisUser.favPID[4] = rs.getInt("fav5");
 				
 				//make a new connection to the movie database
 				con = DriverManager.getConnection(
 						"jdbc:mysql://localhost:3306/movies", "root", "");
 				
 				//for each favorites list entry
-				for(int i = 0; i < 5; i++)
+				for(int i = 0; i < thisUser.favPID.length; i++)
 				{
+					
 					//select from films table where id is favPID[i], which are the values we just got from the users table
 					oPrStmt = con
 							.prepareStatement("SELECT * FROM `films` WHERE id=?");
-					oPrStmt.setInt(1, favPID[i]);
+					oPrStmt.setInt(1, thisUser.favPID[i]);
 					rs = oPrStmt.executeQuery(); 
 				
 					//check to see if rs has a next value, the search should only return 1 film
@@ -75,11 +77,13 @@ public class LoginDao {
 						movie.stars = rs.getString("stars");
 						movie.rating = rs.getDouble("rating");
 						movie.url = rs.getString("url");
-						
-						favoritesList.add(movie);
+						thisUser.favorites.add(movie);
 					}
 					
 				}//end for loop
+				
+				//for(int i = 0; i < 5; i++)
+				//	System.out.println("THIS IS THE FAV LIST: " + favoritesList.get(i).title);
 			
 				
 			}//end rs.next if statement
