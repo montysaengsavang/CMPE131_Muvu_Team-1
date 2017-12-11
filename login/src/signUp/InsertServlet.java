@@ -25,9 +25,9 @@ public class InsertServlet extends HttpServlet {
 		String strPass=request.getParameter("userpass");
 		String strConfirmPass=request.getParameter("confirm_pass");
 		
-		
 		if(strConfirmPass.equals(strPass) && SignUpDao.save(strEmail, strPass))
 		{
+			
 			out.print("<br><div style=\"text-align:center; color:red; font-size:90%\">"
 				+ "<b>Account has successfully been created.</b>"
 				+ "</div>");

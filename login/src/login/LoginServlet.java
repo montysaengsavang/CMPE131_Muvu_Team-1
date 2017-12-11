@@ -1,10 +1,8 @@
 package login;
 
-import movies.Film;
-import java.util.List;
-import java.util.ArrayList;
-import java.io.IOException;
 
+import accounts.User;
+import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -36,18 +34,13 @@ public class LoginServlet extends HttpServlet {
 		String n=request.getParameter("useremail");
 		String p=request.getParameter("userpass");
 		
-		//create favorites list for this specific user
-		List<Film> favoritesList = new ArrayList<Film>();
-		
-		//create array of favorite movie ID's for user
-		int[] favPID = new int[5];
+		User thisUser = new User(n, p); //create user object for this user
 		
 		//check to validate login credentials, while filling up favorites list and movie ID array
-		if(LoginDao.validate(n, p, favoritesList, favPID))
+		if(LoginDao.validate(thisUser))
 		{	
 			//before sending off to next page, set attributes to be shared with the next servlet
-			request.setAttribute("temp1", n);
-			request.setAttribute("temp2", p);
+			request.setAttribute("thisUser", thisUser);
 			
 			//dispatch to next servlet
 			RequestDispatcher rd = request.getRequestDispatcher("loggedin");

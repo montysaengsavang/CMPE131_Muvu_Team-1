@@ -1,14 +1,9 @@
 package login;
 
+import database.MovieDB;
 
-import movies.Film;
-
+import accounts.User;
 import java.io.IOException;
-//import java.io.PrintWriter;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -32,18 +27,14 @@ public class LoggedInServlet extends HttpServlet
 		// TODO Auto-generated method stub
 		response.setContentType("text/html");
 	
-		//we MUST request all these attributes and call these functions in order to run homepage.jsp
-		String temp1 = (String) request.getAttribute("temp1");
-		String temp2 = (String) request.getAttribute("temp2"); 
+
+		User thisUser = (User)request.getAttribute("thisUser");
 		
-		List<Film> topMovies = new ArrayList<Film>();
-		List<Film> favoritesList = new ArrayList<Film>();
-		int[] favPID = new int[5];
-		LoginDao.getTopMovies(topMovies);
-		LoginDao.validate(temp1, temp2, favoritesList, favPID); 
+		MovieDB topMovies = new MovieDB();
+		LoginDao.getTopMovies(topMovies.movieList);
 		
 		//MUST set these attributes before running homepage.jsp
-		request.setAttribute("favoritesList", favoritesList);
+		request.setAttribute("thisUser", thisUser);
 		request.setAttribute("error", "");
 		request.setAttribute("topMovies", topMovies);
 		

@@ -1,5 +1,9 @@
 package search;
+
+
+import database.MovieDB;
 import java.util.*;
+import accounts.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -53,20 +57,18 @@ public class SearchServlet extends HttpServlet {
 			String temp1 = request.getParameter("temp1");
 			String temp2 = request.getParameter("temp2");
 			
-			List<Film> topMovies = new ArrayList<Film>();
-			List<Film> favoritesList = new ArrayList<Film>();
-			int[] favPID = new int[5];
-			LoginDao.getTopMovies(topMovies);
-			LoginDao.validate(temp1, temp2, favoritesList, favPID); 
-			request.setAttribute("favoritesList", favoritesList);
+			User thisUser = new User(temp1, temp2);
+			LoginDao.validate(thisUser); 
+			
+			MovieDB topMovies = new MovieDB();
+			LoginDao.getTopMovies(topMovies.movieList);
+
 			request.setAttribute("error", "Search was unsuccessful. Please try again.");
 			request.setAttribute("topMovies", topMovies);
-			//must set these attributes for the next servlet to be able to retrieve
-			request.setAttribute("temp1", temp1);
-			request.setAttribute("temp2", temp2);
+			request.setAttribute("thisUser", thisUser);
 			
 			RequestDispatcher rd=request.getRequestDispatcher("homepage.jsp");
-			rd.forward(request,response);
+		rd.include(request,response);
 		}
 		
 		out.close();
