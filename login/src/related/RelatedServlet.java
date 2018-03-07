@@ -67,12 +67,21 @@ public class RelatedServlet extends HttpServlet {
 			
 			for(int i = 0; i < size; i++)
 			{
-				
+				/*
 				out.println("		<h3>" + (i+1) + "). " + relatedFilms.get(i).title + "</h3>");
 				out.println("<img src = \"https://raw.githubusercontent.com/montysaengsavang/Muvu-Images/master/"
 				+ relatedFilms.get(i).url + "\" alt=\"Movie Image\" height=\"390\" width=\"280\"><br><br>");
 				out.println("				" + relatedFilms.get(i).description);
 				out.println("<br>");
+				*/
+				
+				out.println("<h3>" + (i+1) + "). " + relatedFilms.get(i).title + " (" + relatedFilms.get(i).year + ")</h3>");
+				out.println("<img src = \"https://raw.githubusercontent.com/montysaengsavang/Muvu-Images/master/"
+					+ relatedFilms.get(i).url + "\" alt=\"Movie Image\" height=\"390\" width=\"280\"><br>" 
+					+ "<h3><p style=\"color:red;\">Rating: " + relatedFilms.get(i).rating + "/10</p></h3>"
+					+ relatedFilms.get(i).genre + " - " + relatedFilms.get(i).duration + " mins <br><br>");
+
+				out.println("Starring: " + relatedFilms.get(i).stars + "<br><br>" + relatedFilms.get(i).description + "<br><br>");
 			}
 			 
 		}

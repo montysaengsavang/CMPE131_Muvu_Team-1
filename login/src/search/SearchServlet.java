@@ -43,12 +43,14 @@ public class SearchServlet extends HttpServlet {
 			//print all movies in the searchResult list
 			for(int i = 0; i < size; i++)
 			{
-				
-				out.println("<h3>" + (i+1) + "). " + searchResults.get(i).title + "</h3>");
+		
+				out.println("<h3>" + (i+1) + "). " + searchResults.get(i).title + " (" + searchResults.get(i).year + ")</h3>");
 				out.println("<img src = \"https://raw.githubusercontent.com/montysaengsavang/Muvu-Images/master/"
-				+ searchResults.get(i).url + "\" alt=\"Movie Image\" height=\"390\" width=\"280\"><br><br>");
-				out.println("				" + searchResults.get(i).description);
-				out.println("<br>");
+					+ searchResults.get(i).url + "\" alt=\"Movie Image\" height=\"390\" width=\"280\"><br>" 
+					+ "<h3><p style=\"color:red;\">Rating: " + searchResults.get(i).rating + "/10</p></h3>"
+					+ searchResults.get(i).genre + " - " + searchResults.get(i).duration + " mins <br><br>");
+
+				out.println("Starring: " + searchResults.get(i).stars + "<br><br>" + searchResults.get(i).description + "<br><br>");
 			}
 			 
 		}
