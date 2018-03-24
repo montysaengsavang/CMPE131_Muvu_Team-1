@@ -386,24 +386,16 @@ body{
    		out.println("<input type=\"hidden\" name=\"temp1\" value=\"" + thisUser.email + "\" />"
 			+ "<input type=\"hidden\" name=\"temp2\" value=\"" + thisUser.password + "\" />");
  	  	%>
- 	  	<input type="Submit" value="Get Related Films">
+ 	  	<input type="Submit" class="card-button card-button-cta" value="Get Related Films">
  	  	
     </form>
     
-    
-          
-          
-<form action="clear" method="post">
-<% 
-		out.println("<input type=\"hidden\" name=\"temp1\" value=\"" + thisUser.email + "\" />"
-		+ "<input type=\"hidden\" name=\"temp2\" value=\"" + thisUser.password + "\" />");
-%>
-	  	<input type="Submit" value="Clear Favorites List">
-</form>
-
-
-<%
-for(int i = 0; i < topMovies.movieList.size() ; i++)
+<!--  Beginning of Favorites List -->
+ <%
+    if(thisUser.favorites.size() != 0)
+    	out.println("<h1>Your Favorites List</h1>");
+ 
+for(int i = 0; i < thisUser.favorites.size() ; i++)
 {
 %>
 <div class="container">
@@ -412,7 +404,7 @@ for(int i = 0; i < topMovies.movieList.size() ; i++)
           
 		<% 
 		out.println("<img src = \"https://raw.githubusercontent.com/montysaengsavang/Muvu-Images/master/"
-					+ topMovies.movieList.get(i).url + "\" alt=\"Movie Image\" class=\"card-media-img\" />");		                 
+					+ thisUser.favorites.get(i).url + "\" alt=\"Movie Image\" class=\"card-media-img\" />");		                 
 		%>
   
       <div class="card-media-preview u-flex-center">
@@ -421,13 +413,15 @@ for(int i = 0; i < topMovies.movieList.size() ; i++)
           <path d="M0 0h24v24H0z" fill="none"/>
         </svg>
       </div>
-      <span class="card-media-tag card-media-tag-orange">Action</span>
+      <span class="card-media-tag card-media-tag-orange">
+      <%	out.println(thisUser.favorites.get(i).genre.split(",")[0]); %>
+      </span>
     </div>
 
     <div class="card-body">
     
  	<% 
-      out.println("<h2 class=\"card-body-heading\">" + topMovies.movieList.get(i).title + "</h2>");
+      out.println("<h2 class=\"card-body-heading\">" + thisUser.favorites.get(i).title + " (" + thisUser.favorites.get(i).year + ") </h2>");
     %>
       
       <div class="card-body-options">
@@ -490,18 +484,150 @@ for(int i = 0; i < topMovies.movieList.size() ; i++)
         
         
       </ul>
-      <a href="#/" class="card-button card-button-cta">
-        Add to Favorites
-      </a>
-      <a href="#/" class="card-button card-button-link">
-        More info
-        <span class="card-button-icon">
-          <svg fill="#9C948A" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 0h24v24H0z" fill="none"/>
-            <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+
+<%
+ 		 out.println("<form action=\"moreinfo\" method=\"post\"> "
+      			+ "<input type=\"hidden\" name=\"temp1\" value=\"" + thisUser.email + "\" />"
+      			+ "<input type=\"hidden\" name=\"temp2\" value=\"" + thisUser.password + "\" />"
+      			+ "<input type=\"hidden\" name=\"thisID\" value=" + thisUser.favorites.get(i).id +  " />"
+      		 	+ "<input type=\"Submit\" class=\"card-button card-button-link\" value=\"More Info\">"
+      		 	+ "</form><br>");
+%>
+     
+    </div>
+
+  </div>
+
+
+<!-- __________________________________________________________________________________________________________ -->
+    </div>    
+    
+<%
+}
+%>
+    <!--  Ending of Favorites List -->
+          
+          
+<form action="clear" method="post">
+<% 
+		out.println("<input type=\"hidden\" name=\"temp1\" value=\"" + thisUser.email + "\" />"
+		+ "<input type=\"hidden\" name=\"temp2\" value=\"" + thisUser.password + "\" />");
+%>
+	  	<input type="Submit" class="card-button card-button-cta" value="Clear Favorites List">
+</form>
+
+
+<%
+out.println("<h1>Top Rated Films</h1>");
+for(int i = 0; i < topMovies.movieList.size() ; i++)
+{
+%>
+<div class="container">
+  <div class="card u-clearfix">
+    <div class="card-media">
+          
+		<% 
+		out.println("<img src = \"https://raw.githubusercontent.com/montysaengsavang/Muvu-Images/master/"
+					+ topMovies.movieList.get(i).url + "\" alt=\"Movie Image\" class=\"card-media-img\" />");		                 
+		%>
+  
+      <div class="card-media-preview u-flex-center">
+        <svg fill="#ffffff" height="18" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 5v14l11-7z"/>
+          <path d="M0 0h24v24H0z" fill="none"/>
+        </svg>
+      </div>
+      <span class="card-media-tag card-media-tag-orange">  
+      		<%	out.println(topMovies.movieList.get(i).genre.split(",")[0]); %>
+      </span>
+    </div>
+
+    <div class="card-body">
+    
+ 	<% 
+      out.println("<h2 class=\"card-body-heading\">" + topMovies.movieList.get(i).title + " (" + topMovies.movieList.get(i).year + ") </h2>");
+    %>
+      
+      <div class="card-body-options">
+        <div class="card-body-option card-body-option-favorite">
+           <svg fill="#9C948A" height="26" viewBox="0 0 24 24" width="26" xmlns="http://www.w3.org/2000/svg">
+             <path d="M0 0h24v24H0z" fill="none"/>
+             <path d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3zm-4.4 15.55l-.1.1-.1-.1C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5 5c1.54 0 3.04.99 3.57 2.36h1.87C13.46 5.99 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05z"/>
           </svg>
-        </span>
-      </a>
+        </div>
+        
+        
+        <div class="card-body-option card-body-option-share">
+          <svg fill="#9C948A" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/>
+          </svg>
+        </div>
+      </div>
+      
+      
+      <ul class="card-body-stars u-clearfix">
+        <li>
+          <svg fill="#D3BCA2" height="28" viewBox="0 0 18 18" width="28" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 11.3l3.71 2.7-1.42-4.36L15 7h-4.55L9 2.5 7.55 7H3l3.71 2.64L5.29 14z"/>
+            <path d="M0 0h18v18H0z" fill="none"/>
+          </svg>
+        </li>
+        
+        
+        <li>
+          <svg fill="#D3BCA2" height="28" viewBox="0 0 18 18" width="28" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 11.3l3.71 2.7-1.42-4.36L15 7h-4.55L9 2.5 7.55 7H3l3.71 2.64L5.29 14z"/>
+            <path d="M0 0h18v18H0z" fill="none"/>
+          </svg>
+        </li>
+        
+        
+        <li>
+          <svg fill="#D3BCA2" height="28" viewBox="0 0 18 18" width="28" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 11.3l3.71 2.7-1.42-4.36L15 7h-4.55L9 2.5 7.55 7H3l3.71 2.64L5.29 14z"/>
+            <path d="M0 0h18v18H0z" fill="none"/>
+          </svg>
+        </li>
+        
+        
+        <li>
+          <svg fill="#D3BCA2" height="28" viewBox="0 0 18 18" width="28" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 11.3l3.71 2.7-1.42-4.36L15 7h-4.55L9 2.5 7.55 7H3l3.71 2.64L5.29 14z"/>
+            <path d="M0 0h18v18H0z" fill="none"/>
+          </svg>
+        </li>
+        
+        
+        <li>
+          <svg fill="#D3BCA2" height="28" viewBox="0 0 18 18" width="28" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 11.3l3.71 2.7-1.42-4.36L15 7h-4.55L9 2.5 7.55 7H3l3.71 2.64L5.29 14z"/>
+            <path d="M0 0h18v18H0z" fill="none"/>
+          </svg>
+        </li>
+        
+        
+      </ul>
+
+        <%
+
+        out.println("<form action=\"favorite\" method=\"post\"> "
+      			+ "<input type=\"hidden\" name=\"temp1\" value=\"" + thisUser.email + "\" />"
+      			+ "<input type=\"hidden\" name=\"temp2\" value=\"" + thisUser.password + "\" />"
+      			+ "<input type=\"hidden\" name=\"favID\" value=" + topMovies.movieList.get(i).id +  " />"
+      		 	+ "<input type=\"Submit\" class=\"card-button card-button-cta\" value=\"Add To Favorites\">"
+      		 	+ "</form><br>");
+
+		
+                out.println("<form action=\"moreinfo\" method=\"post\"> "
+      			+ "<input type=\"hidden\" name=\"temp1\" value=\"" + thisUser.email + "\" />"
+      			+ "<input type=\"hidden\" name=\"temp2\" value=\"" + thisUser.password + "\" />"
+      			+ "<input type=\"hidden\" name=\"thisID\" value=" + topMovies.movieList.get(i).id +  " />"
+      		 	+ "<input type=\"Submit\" class=\"card-button card-button-link\" value=\"More Info\">"
+      		 	+ "</form><br>");
+        %>
+        
+   
     </div>
 
   </div>

@@ -80,8 +80,15 @@
     <servlet-name>clearRelatedServlet</servlet-name>
     <url-pattern>/clear</url-pattern>
   </servlet-mapping>
+      <servlet>
+    <servlet-name>MoreInfoServlet</servlet-name>
+    <servlet-class>moreInfo.MoreInfoServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MoreInfoServlet</servlet-name>
+    <url-pattern>/moreinfo</url-pattern>
+  </servlet-mapping>
   <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
     <welcome-file>signup.html</welcome-file>
     <welcome-file>homepage.jsp</welcome-file>
   </welcome-file-list>
